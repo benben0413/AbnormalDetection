@@ -1,10 +1,26 @@
 import cv2
 import numpy as np
 from scipy import io
-import  lda
+from sklearn.decomposition import NMF, LatentDirichletAllocation
 
 X=io.loadmat('b.mat')['matrix'].astype(int)
-model=lda.LDA(n_topics=2,n_iter=1500,random_state=1)
-model.fit(X)
-io.savemat('c.mat', {'matrix': model.doc_topic_})
-print(model.doc_topic_)
+lda = LatentDirichletAllocation(n_topics=30, max_iter=10,
+                                learning_method='online',
+                                learning_offset=50.,
+                                random_state=0)
+print ("start")
+lda.fit(X)
+
+test=io.loadmat('b.mat')['matrix'].astype(int)
+
+ll=np.zeros(test.shape[0])
+
+
+
+for i in range(test.shape[0]):
+    print(i)
+    ll[i]=lda.score(test[i,:].reshape(1,-1))
+io.savemat('f.mat',{'matrix':ll})
+print("end")
+
+

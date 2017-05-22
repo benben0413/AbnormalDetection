@@ -4,7 +4,7 @@ from scipy import io
 
 voc = io.loadmat('a.mat')['matrix']
 
-cap = cv2.VideoCapture("1_2.avi")
+cap = cv2.VideoCapture("1.avi")
 
 ret, frame1 = cap.read()
 prvs = cv2.cvtColor(frame1, cv2.COLOR_BGR2GRAY)
@@ -54,5 +54,5 @@ while (ret):
             print('exception occur', e)
 
 cap.release()
-io.savemat('b.mat', {'matrix': doc})
+io.savemat('d.mat', {'matrix': doc})
 cv2.destroyAllWindows()

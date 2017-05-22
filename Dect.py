@@ -2,15 +2,17 @@ import cv2
 import numpy as np
 from scipy import io
 
-cap = cv2.VideoCapture("1.avi")
+cap = cv2.VideoCapture("1_2.avi")
 
 ret, frame1 = cap.read()
 prvs = cv2.cvtColor(frame1, cv2.COLOR_BGR2GRAY)
 hsv = np.zeros_like(frame1)
-hsv[..., 1] =0
+hsv[..., 1] =255
 
 detector = cv2.xfeatures2d.SIFT_create()  # create a feature detector
-bo = cv2.BOWKMeansTrainer(20)
+
+#单词数量为30个
+bo = cv2.BOWKMeansTrainer(30)
 
 
 while (ret):
@@ -27,11 +29,6 @@ while (ret):
 
         cv2.imshow('frame2', rgb)
         k = cv2.waitKey(30) & 0xff
-        if k == 27:
-            break
-        elif k == ord('s'):
-            cv2.imwrite('opticalfb.png', frame2)
-            cv2.imwrite('opticalhsv.png', rgb)
         prvs = next
 
         kp1, desc1 = detector.detectAndCompute(rgb, None)  # find feature
